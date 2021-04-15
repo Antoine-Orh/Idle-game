@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.54.0/dist/phaser.min.js"></script>
+
+
+
+    </head>
+    <body>
+
+        <script>
+        var config = {
+            type: Phaser.AUTO,
+            width: 1850,
+            height: 950,
+            physics: {
+                default: 'none',
+
+            },
+            scene: {
+                preload: preload,
+                create: create
+            }
+        };
+    
+        var game = new Phaser.Game(config);
+    
+        function preload ()
+        {
+            //this.load.image('nom de l image', 'image path');
+
+        }
+    
+        function create ()
+        {
+
+        }
+        </script>
+    
+    </body>
+    </html>
