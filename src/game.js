@@ -9,8 +9,11 @@ game.state.add('play', {
         this.game.load.image('minerail', 'assets/background/minerail.jpg');
         this.game.load.image('herobrine2', 'assets/background/herobrine2.png');
         this.game.load.image('minepioche', 'assets/background/minepioche.webp');
+        this.game.load.image('diamond', 'assets/background/diamond.jpg');
 
         this.game.load.image('stone', 'assets/stone/stone.jpg');
+        this.game.load.image('ironore', 'assets/stone/ironore.png');
+        this.game.load.image('goldore', 'assets/stone/goldore.png');
 
 
         // build panel for upgrades
@@ -78,7 +81,7 @@ game.state.add('play', {
         });
 
         var monsterData = [
-            {name: this.NameGen(),        image: 'stone',        maxHealth: 10},
+            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 10},
 
         ];
         this.monsters = this.game.add.group();
@@ -167,11 +170,23 @@ game.state.add('play', {
             'herobrine',
             'herobrine2',
             'minerail',
-            'minepioche'
+            'minepioche',
+            'diamond'
         ];
         var minerandom = lamine[Math.floor(Math.random()*lamine.length)];
         return minerandom;
     },
+
+    mineraux: function(){
+        var orerandom = [
+            'stone',
+            'ironore',
+            'goldore'
+        ];
+        var theore = orerandom[Math.floor(Math.random()*orerandom.length)];
+        return theore;
+    },
+
     NameGen: function(){
         var prefixe = [
             "Graph",
