@@ -248,7 +248,8 @@ game.state.add('play', {
             "phaser",
             "uri",
             "tétra",
-            "macron"
+            "macron",
+            "c'est quoi déjà ce truc qui fini en -"
           ];
 
         var suffixe = [
@@ -260,7 +261,7 @@ game.state.add('play', {
             "onium",
             "onite",
             "ane",
-            "cadium",
+            "adium",
             "ophite",
             "ate de potassium"
           ];
@@ -320,7 +321,7 @@ game.state.add('play', {
         this.levelKills++;
 
         if (this.levelKills >= this.levelKillsRequired) {
-            background = this.add.image(0, 0, this.currentMine());
+            background = this.add.image(0, 0, 'herobrine');
             background.height = game.height;
             background.width = game.width;
             this.level++;
