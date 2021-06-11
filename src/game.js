@@ -321,9 +321,6 @@ game.state.add('play', {
         this.levelKills++;
 
         if (this.levelKills >= this.levelKillsRequired) {
-            background = this.add.image(0, 0, 'herobrine');
-            background.height = game.height;
-            background.width = game.width;
             this.level++;
             this.levelKills = 0;
 
