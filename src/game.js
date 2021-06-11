@@ -125,7 +125,7 @@ game.state.add('play', {
         var monster;
         monsterData.forEach(function(data) {
             // create a sprite for them off screen
-            monster = state.monsters.create(1000, state.game.world.centerY, data.image);
+            monster = state.monsters.create(1038, state.game.world.centerY, data.image);
             // use the built in health component
             monster.health = monster.maxHealth = data.maxHealth;
             // center anchor
@@ -309,7 +309,7 @@ game.state.add('play', {
     },
     onKilledMonster: function(monster) {
         // move the monster off screen again
-        monster.position.set(1000, this.game.world.centerY);
+        monster.position.set(4000, this.game.world.centerY);
 
         var coin;
         // spawn a coin on the ground
