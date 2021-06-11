@@ -81,7 +81,7 @@ game.state.add('play', {
         });
 
         var monsterData = [
-            {name: 'Stone',        image: 'stone',        maxHealth: 10},
+            {name: this.NameGen(),        image: 'stone',        maxHealth: 10},
 
         ];
         this.monsters = this.game.add.group();
@@ -162,6 +162,32 @@ game.state.add('play', {
             fill: '#fff',
             strokeThickness: 4
         }));
+    },
+
+    NameGen: function(){
+        var prefixe = [
+            "Graph",
+            "Ura",
+            "Gra",
+            "Tita",
+            "Caillou",
+            "Obsi",
+            "roch"
+          ];
+
+        var suffixe = [
+            "ium",
+            "ite",
+            "ène",
+            "dienne",
+            "dium",
+            "onium"
+          ];
+          
+        var leprefixe = prefixe[Math.floor(Math.random()*prefixe.length)];    
+        var lesuffixe = suffixe[Math.floor(Math.random()*suffixe.length)];
+
+        return leprefixe+lesuffixe;
     },
     onDPS: function() {
         if (this.player.dps > 0) {
