@@ -1,1 +1,1 @@
-# Idle-game
+Voici un idle game autour du minage de cailloux générés aléatoirement.
