@@ -5,6 +5,10 @@ game.state.add('play', {
     preload: function() {
         this.game.load.image('mine', 'assets/background/mine.jpg');
         this.game.load.image('mineshaft', 'assets/background/mineshaft.png');
+        this.game.load.image('herobrine', 'assets/background/herobrine.jpg');
+        this.game.load.image('minerail', 'assets/background/minerail.jpg');
+        this.game.load.image('herobrine2', 'assets/background/herobrine2.png');
+        this.game.load.image('minepioche', 'assets/background/minepioche.webp');
 
         this.game.load.image('stone', 'assets/stone/stone.jpg');
 
@@ -34,6 +38,7 @@ game.state.add('play', {
         };
 
         // world progression
+        var lamine = 0;
         this.level = 1;
         // how many monsters have we killed during this level
         this.levelKills = 0;
@@ -43,8 +48,10 @@ game.state.add('play', {
     create: function() {
         var state = this;
 
-        this.add.image(0, 0, this.currentMine());
-
+        background = this.add.image(0, 0, this.currentMine());
+        background.height = game.height;
+        background.width = game.width;
+        
         this.upgradePanel = this.game.add.image(10, 70, this.game.cache.getBitmapData('upgradePanel'));
         var upgradeButtons = this.upgradePanel.addChild(this.game.add.group());
         upgradeButtons.position.setTo(8, 8);
@@ -154,12 +161,17 @@ game.state.add('play', {
         }));
     },
     currentMine: function(){
-        if (levelKills >= 10) {
-            return 'mineshaft'
-        }
-        else {
-            return 'mine'
-        }},
+        var lamine = [
+            'mine',
+            'mineshaft',
+            'herobrine',
+            'herobrine2',
+            'minerail',
+            'minepioche'
+        ];
+        var minerandom = lamine[Math.floor(Math.random()*lamine.length)];
+        return minerandom;
+    },
     NameGen: function(){
         var prefixe = [
             "Graph",
@@ -180,7 +192,7 @@ game.state.add('play', {
             "onium"
           ];
           
-        var leprefixe = prefixe[Math.floor(Math.random()*prefixe.length)];    
+        var leprefixe = prefixe[Math.floor(Math.random()*prefixe.length)];
         var lesuffixe = suffixe[Math.floor(Math.random()*suffixe.length)];
 
         return leprefixe+lesuffixe;
