@@ -4,13 +4,10 @@ var game = new Phaser.Game(1875, 970, Phaser.AUTO, '');
 game.state.add('play', {
     preload: function() {
         this.game.load.image('mine', 'assets/background/mine.jpg');
-
+        this.game.load.image('mineshaft', 'assets/background/mineshaft.png');
 
         this.game.load.image('stone', 'assets/stone/stone.jpg');
 
-
-        this.game.load.image('dagger', 'assets/496_RPG_icons/W_Dagger002.png');
-        this.game.load.image('swordIcon1', 'assets/496_RPG_icons/S_Sword15.png');
 
         // build panel for upgrades
         var bmd = this.game.add.bitmapData(250, 500);
@@ -46,7 +43,7 @@ game.state.add('play', {
     create: function() {
         var state = this;
 
-        this.add.image(0, 0, 'mine');
+        this.add.image(0, 0, this.currentMine());
 
         this.upgradePanel = this.game.add.image(10, 70, this.game.cache.getBitmapData('upgradePanel'));
         var upgradeButtons = this.upgradePanel.addChild(this.game.add.group());
@@ -156,7 +153,13 @@ game.state.add('play', {
             strokeThickness: 4
         }));
     },
-
+    currentMine: function(){
+        if (levelKills >= 10) {
+            return 'mineshaft'
+        }
+        else {
+            return 'mine'
+        }},
     NameGen: function(){
         var prefixe = [
             "Graph",
