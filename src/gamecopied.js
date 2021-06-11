@@ -1,21 +1,33 @@
-var game = new Phaser.Game(1875, 970, Phaser.AUTO, '');
-
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 
 game.state.add('play', {
     preload: function() {
-        this.game.load.image('mine', 'assets/background/mine.png');
-        this.game.load.image('mineshaft', 'assets/background/mineshaft.png');
-        this.game.load.image('herobrine', 'assets/background/herobrine.jpg');
-        this.game.load.image('minerail', 'assets/background/minerail.jpg');
-        this.game.load.image('minepioche', 'assets/background/minepioche.webp');
-        this.game.load.image('diamond', 'assets/background/diamond.jpg');
+        this.game.load.image('forest-back', 'assets/parallax_forest_pack/layers/parallax-forest-back-trees.png');
+        this.game.load.image('forest-lights', 'assets/parallax_forest_pack/layers/parallax-forest-lights.png');
+        this.game.load.image('forest-middle', 'assets/parallax_forest_pack/layers/parallax-forest-middle-trees.png');
+        this.game.load.image('forest-front', 'assets/parallax_forest_pack/layers/parallax-forest-front-trees.png');
 
-        this.game.load.image('stone', 'assets/stone/stone.jpg');
-        this.game.load.image('ironore', 'assets/stone/ironore.png');
-        this.game.load.image('goldore', 'assets/stone/goldore.png');
+        this.game.load.image('aerocephal', 'assets/allacrost_enemy_sprites/aerocephal.png');
+        this.game.load.image('arcana_drake', 'assets/allacrost_enemy_sprites/arcana_drake.png');
+        this.game.load.image('aurum-drakueli', 'assets/allacrost_enemy_sprites/aurum-drakueli.png');
+        this.game.load.image('bat', 'assets/allacrost_enemy_sprites/bat.png');
+        this.game.load.image('daemarbora', 'assets/allacrost_enemy_sprites/daemarbora.png');
+        this.game.load.image('deceleon', 'assets/allacrost_enemy_sprites/deceleon.png');
+        this.game.load.image('demonic_essence', 'assets/allacrost_enemy_sprites/demonic_essence.png');
+        this.game.load.image('dune_crawler', 'assets/allacrost_enemy_sprites/dune_crawler.png');
+        this.game.load.image('green_slime', 'assets/allacrost_enemy_sprites/green_slime.png');
+        this.game.load.image('nagaruda', 'assets/allacrost_enemy_sprites/nagaruda.png');
+        this.game.load.image('rat', 'assets/allacrost_enemy_sprites/rat.png');
+        this.game.load.image('scorpion', 'assets/allacrost_enemy_sprites/scorpion.png');
+        this.game.load.image('skeleton', 'assets/allacrost_enemy_sprites/skeleton.png');
+        this.game.load.image('snake', 'assets/allacrost_enemy_sprites/snake.png');
+        this.game.load.image('spider', 'assets/allacrost_enemy_sprites/spider.png');
+        this.game.load.image('stygian_lizard', 'assets/allacrost_enemy_sprites/stygian_lizard.png');
 
-        this.game.load.image('gold_coin', 'assets/stone/gold.png');
+        this.game.load.image('gold_coin', 'assets/496_RPG_icons/I_GoldCoin.png');
 
+        this.game.load.image('dagger', 'assets/496_RPG_icons/W_Dagger002.png');
+        this.game.load.image('swordIcon1', 'assets/496_RPG_icons/S_Sword15.png');
 
         // build panel for upgrades
         var bmd = this.game.add.bitmapData(250, 500);
@@ -42,7 +54,6 @@ game.state.add('play', {
         };
 
         // world progression
-        var lamine = 0;
         this.level = 1;
         // how many monsters have we killed during this level
         this.levelKills = 0;
@@ -52,10 +63,15 @@ game.state.add('play', {
     create: function() {
         var state = this;
 
-        background = this.add.image(0, 0, this.currentMine());
-        background.height = game.height;
-        background.width = game.width;
-        
+        this.background = this.game.add.group();
+        // setup each of our background layers to take the full screen
+        ['forest-back', 'forest-lights', 'forest-middle', 'forest-front']
+            .forEach(function(image) {
+                var bg = state.game.add.tileSprite(0, 0, state.game.world.width,
+                    state.game.world.height, image, '', state.background);
+                bg.tileScale.setTo(4,4);
+            });
+
         this.upgradePanel = this.game.add.image(10, 70, this.game.cache.getBitmapData('upgradePanel'));
         var upgradeButtons = this.upgradePanel.addChild(this.game.add.group());
         upgradeButtons.position.setTo(8, 8);
@@ -82,43 +98,22 @@ game.state.add('play', {
         });
 
         var monsterData = [
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 15},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 20},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 17},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 5},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 8},
-            {name: this.NameGen(),        image: this.mineraux(),        maxHealth: 13},
-
+            {name: 'Aerocephal',        image: 'aerocephal',        maxHealth: 10},
+            {name: 'Arcana Drake',      image: 'arcana_drake',      maxHealth: 20},
+            {name: 'Aurum Drakueli',    image: 'aurum-drakueli',    maxHealth: 30},
+            {name: 'Bat',               image: 'bat',               maxHealth: 5},
+            {name: 'Daemarbora',        image: 'daemarbora',        maxHealth: 10},
+            {name: 'Deceleon',          image: 'deceleon',          maxHealth: 10},
+            {name: 'Demonic Essence',   image: 'demonic_essence',   maxHealth: 15},
+            {name: 'Dune Crawler',      image: 'dune_crawler',      maxHealth: 8},
+            {name: 'Green Slime',       image: 'green_slime',       maxHealth: 3},
+            {name: 'Nagaruda',          image: 'nagaruda',          maxHealth: 13},
+            {name: 'Rat',               image: 'rat',               maxHealth: 2},
+            {name: 'Scorpion',          image: 'scorpion',          maxHealth: 2},
+            {name: 'Skeleton',          image: 'skeleton',          maxHealth: 6},
+            {name: 'Snake',             image: 'snake',             maxHealth: 4},
+            {name: 'Spider',            image: 'spider',            maxHealth: 4},
+            {name: 'Stygian Lizard',    image: 'stygian_lizard',    maxHealth: 20}
         ];
         this.monsters = this.game.add.group();
 
@@ -144,6 +139,7 @@ game.state.add('play', {
 
         // display the monster front and center
         this.currentMonster = this.monsters.getRandom();
+        this.currentMonster.position.set(this.game.world.centerX + 100, this.game.world.centerY + 50);
 
         this.monsterInfoUI = this.game.add.group();
         this.monsterInfoUI.position.setTo(this.currentMonster.x - 220, this.currentMonster.y + 120);
@@ -180,6 +176,7 @@ game.state.add('play', {
             });
             this.dmgTextPool.add(dmgText);
         }
+
         // create a pool of gold coins
         this.coins = this.add.group();
         this.coins.createMultiple(50, 'gold_coin', '', false);
@@ -192,83 +189,23 @@ game.state.add('play', {
             fill: '#fff',
             strokeThickness: 4
         });
+
         // 100ms 10x a second
         this.dpsTimer = this.game.time.events.loop(100, this.onDPS, this);
 
         // setup the world progression display
         this.levelUI = this.game.add.group();
         this.levelUI.position.setTo(this.game.world.centerX, 30);
-        this.levelText = this.levelUI.addChild(this.game.add.text(0, 0, 'Mine: ' + this.level, {
+        this.levelText = this.levelUI.addChild(this.game.add.text(0, 0, 'Level: ' + this.level, {
             font: '24px Arial Black',
             fill: '#fff',
             strokeThickness: 4
         }));
-        this.levelKillsText = this.levelUI.addChild(this.game.add.text(0, 30, 'blocs minés: ' + this.levelKills + '/' + this.levelKillsRequired, {
+        this.levelKillsText = this.levelUI.addChild(this.game.add.text(0, 30, 'Kills: ' + this.levelKills + '/' + this.levelKillsRequired, {
             font: '24px Arial Black',
             fill: '#fff',
             strokeThickness: 4
         }));
-    },
-    currentMine: function(){
-        var lamine = [
-            'mine',
-            'mineshaft',
-            'herobrine',
-            'minerail',
-            'minepioche',
-            'diamond'
-        ];
-        var minerandom = lamine[Math.floor(Math.random()*lamine.length)];
-        return minerandom;
-    },
-
-    mineraux: function(){
-        var orerandom = [
-            'stone',
-            'ironore',
-            'goldore'
-        ];
-        var theore = orerandom[Math.floor(Math.random()*orerandom.length)];
-        return theore;
-    },
-
-    NameGen: function(){
-        var prefixe = [
-            "Graph",
-            "Ura",
-            "Gra",
-            "Titan",
-            "Caillou",
-            "Obsi",
-            "roch",
-            "oxy",
-            "béta",
-            "débili",
-            "pierre",
-            "phaser",
-            "uri",
-            "tétra",
-            "macron"
-          ];
-
-        var suffixe = [
-            "ium",
-            "ite",
-            "ène",
-            "dienne",
-            "dium",
-            "onium",
-            "onite",
-            "ane",
-            "cadium",
-            "ophite",
-            "ate de potassium"
-          ];
-          
-        var leprefixe = prefixe[Math.floor(Math.random()*prefixe.length)];
-        var lesuffixe = suffixe[Math.floor(Math.random()*suffixe.length)];
-
-        return leprefixe+lesuffixe;
     },
     onDPS: function() {
         if (this.player.dps > 0) {
@@ -320,16 +257,12 @@ game.state.add('play', {
         this.levelKills++;
 
         if (this.levelKills >= this.levelKillsRequired) {
-            background = this.add.image(0, 0, this.currentMine());
-            background.height = game.height;
-            background.width = game.width;
             this.level++;
             this.levelKills = 0;
-
         }
 
         this.levelText.text = 'Level: ' + this.level;
-        this.levelKillsText.text = 'Blocs minés: ' + this.levelKills + '/' + this.levelKillsRequired;
+        this.levelKillsText.text = 'Kills: ' + this.levelKills + '/' + this.levelKillsRequired;
 
         // pick a new monster
         this.currentMonster = this.monsters.getRandom();
